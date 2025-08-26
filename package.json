@@ -1,0 +1,75 @@
+{
+  "name": "ameya-extraction",
+  "version": "0.0.1",
+  "description": "ameya-extraction",
+  "main": "dist/my-ui-library.cjs.js",
+  "module": "dist/my-ui-library.esm.js",
+  "exports": {
+    "import": "./dist/my-ui-library.esm.js",
+    "require": "./dist/my-ui-library.cjs.js"
+  },
+  "files": [
+    "dist",
+    "dist/assets"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "rollup -c",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "pack": "npm pack --pack-destination ./package"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
+    "@mui/system": "^7.0.0",
+    "@mui/utils": "^7.0.0",
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.5",
+    "@svgr/rollup": "^8.1.0",
+    "axios": "^1.8.4",
+    "docx-preview": "^0.3.6",
+    "lodash": "^4.17.21",
+    "moment": "^2.30.1",
+    "pdfjs-dist": "3.11.174",
+    "react-json-tree": "^0.20.0",
+    "react-pdf": "7.7.0",
+    "react-svg": "^16.3.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "tesseract.js": "^2.1.5",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@babel/plugin-transform-runtime": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/runtime": "^7.27.0",
+    "@eslint/js": "^9.25.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-url": "^8.0.2",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react-swc": "^3.9.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "eslint": "^9.25.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.19",
+    "globals": "^16.0.0",
+    "vite": "^6.3.5",
+    "vite-plugin-babel": "^1.3.0"
+  }
+}

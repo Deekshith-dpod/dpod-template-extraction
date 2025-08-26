@@ -1,0 +1,30 @@
+.pdf-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+}
+
+.pdf-canvas,
+.annotation-canvas {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+}
+
+.annotation-canvas {
+    pointer-events: auto;
+    z-index: 10;
+}
+
+.pdf-canvas {
+    pointer-events: none;
+}
+
+canvas.annotation-canvas {
+    pointer-events: auto;
+    cursor: pointer;
+}
