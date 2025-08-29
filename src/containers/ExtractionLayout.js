@@ -1972,21 +1972,21 @@ function ExtractionLayout(props) {
                 return;
             }
 
-            // if (type === 'init') {
-            //     const extractionTasks = await getAllExtarctionTasks(appflyte_details, fileId);
-            //     const taskData = (extractionTasks || []).find(t => t?.payload?.file_id === fileId);
+            if (type === 'init') {
+                const extractionTasks = await getAllExtarctionTasks(appflyte_details, fileId);
+                const taskData = (extractionTasks || []).find(t => t?.payload?.file_id === fileId);
 
-            //     if (taskData) {
-            //         const extractionResponse = await fetchExistingExtraction(fileId);
-            //         if (!extractionResponse) {
-            //             await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-            //         }
-            //     } else {
-            //         await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-            //     }
-            // } else {
-            //     await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-            // }
+                if (taskData) {
+                    const extractionResponse = await fetchExistingExtraction(fileId);
+                    if (!extractionResponse) {
+                        await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+                    }
+                } else {
+                    await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+                }
+            } else {
+                await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+            }
 
             setFileType(fileExtension);
             setSelectedFileName(fileName);
