@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 backup
+ameya-extraction-0.0.1.tgz
 
 # Editor directories and files
 .vscode/*
