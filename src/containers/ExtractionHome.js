@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 
 import ExtractionLayout from './ExtractionLayout';
 import getTemplateSettingsData from '../utils/fetchSettingsData';
-import { fetchAllExtractionFiles, getExtractionFile } from '../utils/FileUpload';
+import { fetchAllExtractionFiles } from '../utils/FileUpload';
 import getAllDocumentTypes from '../utils/fecthMasterDomainDicts';
 import AmeyaSettingsApi from '../api/services/TemplateServiceApi';
 import { useAppContext } from '../context/appcontext';
+import getExtractionFile from '../utils/getFileById';
 
 function ExtractionHome(props) {
     const { fileLastEvaluatedKey, setFileLastEvaluatedKey } = useAppContext();
@@ -112,7 +113,6 @@ function ExtractionHome(props) {
                         setSelectedExtractionFile(filesData);
                     }
                 }
-
                 setExtractionFiles(extractionFilesArray);
                 const document_type = documentTypes?.at(-1) ?? {};
                 setDocumentTypeData(prev => ({

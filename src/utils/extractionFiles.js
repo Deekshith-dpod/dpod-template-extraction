@@ -1,30 +1,5 @@
 import AmeyaSettingsApi from "../api/services/TemplateServiceApi";
 
-export const getExtractionFilebyName = async (appflyte_details, file_name) => {
-    const tempArr = [];
-
-    try {
-        const response = await AmeyaSettingsApi.searchExtractionFiles(appflyte_details, file_name);
-
-        if (response.data) {
-            const collectionData = response.data.published_collections_detail?.flatMap(collection => response.data[collection.id]) ?? [];
-
-            if (collectionData.length) {
-                tempArr.push(...collectionData);
-            }
-        }
-
-        return {
-            data: tempArr,
-            lastEvaluatedKey: response.data?.last_evaluated_key ?? null
-        };
-    } catch (error) {
-        console.error(error);
-        return { data: [], lastEvaluatedKey: null };
-    }
-};
-
-
 export const getExtractionFilebyId = async (appflyte_details, file_id) => {
     const tempArr = [];
     try {
@@ -41,6 +16,26 @@ export const getExtractionFilebyId = async (appflyte_details, file_id) => {
         return [];
     }
 };
+
+ //  const tempArr = []
+    // let last_evaluated_key = null
+    // try {
+    //     do {
+    //         const response = await AmeyaSettingsApi.getTemplateSettings(appflyte_details, last_evaluated_key);
+    //         if (response.data) {
+    //             const collectionData = response.data.published_collections_detail.flatMap(collection => response.data[collection.id]);
+    //             if (collectionData) {
+    //                 tempArr.push(...collectionData)
+    //             }
+    //         }
+    //         last_evaluated_key = response.data.last_evaluated_key != null && response.data.last_evaluated_key !== "" ? encodeURIComponent(JSON.stringify(response.data.last_evaluated_key)) : null
+    //     }
+    //     while (last_evaluated_key !== null)
+    //     return tempArr;
+    // }
+    // catch (error) {
+    //     console.error(error)
+    // }
 
 
 

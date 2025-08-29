@@ -41,7 +41,7 @@ import { generateSearchKeysNew } from '../utils/PdfSearch';
 import { lowercaseStrings } from '../utils/lowercaseStrings';
 import { addProgrammaticAnnotation } from '../utils/PdfDraw';
 import { handleConstructFieldData, handleNewFieldAdd } from '../utils/documentTypeFields';
-import { fetchAllExtractionFiles, handleDocumentUpload, saveInBackend, searchExtractionFiles } from '../utils/fileUpload';
+import { fetchAllExtractionFiles, handleDocumentUpload, saveInBackend } from '../utils/fileUpload';
 import { convertFloatsToStrings, handleExtractionFields, handleExtractionGroups, handleExtractionTables, lightTheme } from '../utils/index';
 import AppflyteServiceApi from '../api/services/AppflyteServiceApi';
 import axios from 'axios';
@@ -49,6 +49,7 @@ import ExtractionResult from './ExtractionResult';
 import { documentStyles } from './utils';
 import { useAppContext } from '../context/appcontext';
 import { getAllExtarctionTasks } from '../utils/data';
+import searchExtractionFiles from '../utils/searchExtractionFiles';
 
 function ExtractionLayout(props) {
 
@@ -1971,21 +1972,21 @@ function ExtractionLayout(props) {
                 return;
             }
 
-            if (type === 'init') {
-                const extractionTasks = await getAllExtarctionTasks(appflyte_details, fileId);
-                const taskData = (extractionTasks || []).find(t => t?.payload?.file_id === fileId);
+            // if (type === 'init') {
+            //     const extractionTasks = await getAllExtarctionTasks(appflyte_details, fileId);
+            //     const taskData = (extractionTasks || []).find(t => t?.payload?.file_id === fileId);
 
-                if (taskData) {
-                    const extractionResponse = await fetchExistingExtraction(fileId);
-                    if (!extractionResponse) {
-                        await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-                    }
-                } else {
-                    await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-                }
-            } else {
-                await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
-            }
+            //     if (taskData) {
+            //         const extractionResponse = await fetchExistingExtraction(fileId);
+            //         if (!extractionResponse) {
+            //             await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+            //         }
+            //     } else {
+            //         await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+            //     }
+            // } else {
+            //     await handleExtraction(cleanedUrl, fileName, fileId, selectedFile);
+            // }
 
             setFileType(fileExtension);
             setSelectedFileName(fileName);
@@ -3486,7 +3487,7 @@ function ExtractionLayout(props) {
 
                                 <Box display={'flex'} alignItems={'center'}>
                                     <FormControl>
-                                        <Autocomplete
+                                        {/* <Autocomplete
                                             id="extraction-autocomplete"
                                             options={isSearching ? searchResults : extractionFiles}
                                             getOptionLabel={(option) => option?.payload?.file_name || ""}
@@ -3538,7 +3539,66 @@ function ExtractionLayout(props) {
                                                 />
                                             )}
                                             noOptionsText={<Typography sx={styles.paraText}>No file available</Typography>}
+                                        /> */}
+                                        <Autocomplete
+                                            id="extraction-autocomplete"
+                                            options={isSearching ? searchResults : extractionFiles}
+                                            getOptionLabel={(option) => option?.payload?.file_name || ""}
+                                            value={selectedExtractionFile}
+                                            onChange={(event, newValue) => {
+                                                setSelectedExtractionFile(newValue);
+                                                setRevalidateStatus(false);
+
+                                                // ✅ If user clears selection, reset search mode
+                                                if (!newValue) {
+                                                    setIsSearching(false);
+                                                    setSearchResults([]);
+                                                    setSearchTerm(null);
+                                                }
+                                            }}
+                                            disabled={fileLoading || isOcrProcessing || extractionLoading || loading || dataLoading}
+                                            sx={{
+                                                ...componentStyle.autocomplete,
+                                                width: '283px',
+                                                backgroundColor: '#ffffff',
+                                                borderRadius: '5px',
+                                                border: '1px solid #D9D9D9',
+                                                height: '30px',
+                                                '& .MuiOutlinedInput-root': { height: '30px' },
+                                            }}
+                                            ListboxProps={{ onScroll: isSearching ? undefined : handlePageScroll }}
+                                            loading={dataLoading || loadingMore}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    placeholder="Search and Select File"
+                                                    value={searchTerm || ""}
+                                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === "Enter") {
+                                                            handleSearch();
+                                                        }
+                                                    }}
+                                                    InputProps={{
+                                                        ...params.InputProps,
+                                                        endAdornment: (
+                                                            <>
+                                                                {(dataLoading || loadingMore) && (
+                                                                    <CircularProgress size={20} sx={{ color: '#007bff' }} />
+                                                                )}
+                                                                <IconButton onClick={handleSearch}>
+                                                                    <Search />
+                                                                </IconButton>
+                                                                {params.InputProps.endAdornment}
+                                                            </>
+                                                        ),
+                                                    }}
+                                                    sx={{ ...styles.paraText, ...componentStyle.textField }}
+                                                />
+                                            )}
+                                            noOptionsText={<Typography sx={styles.paraText}>No file available</Typography>}
                                         />
+
                                     </FormControl>
                                 </Box>
 

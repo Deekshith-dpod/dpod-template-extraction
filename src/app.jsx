@@ -11,20 +11,20 @@ function App() {
         setLayoutPreview(false);
     };
 
+    // local-dev:
+    // const appflyte_backend_url="https://api-dev.appflyte.net"
+    // const appflyte_agent_api_token = "80236a44-2f80-44be-b3c6-3e2a8a1107c9";
+    // const extraction_document_type_id="dc314c50-987b-42cd-9b24-5ca51eb944ee"
+    // const appflyte_project_id = "4f58b8e9-da09-48b6-9af4-fe3ce657373c"
+
     // local-qa:
-    // const appflyte_backend_url = "https://appflyte-backend.ameya.ai".
-
-    const appflyte_backend_url="https://api-dev.appflyte.net"
+    const appflyte_backend_url = "https://appflyte-backend.ameya.ai"
     const appflyte_agent_api_token = "80236a44-2f80-44be-b3c6-3e2a8a1107c9";
-
-    const extraction_document_type_id="dc314c50-987b-42cd-9b24-5ca51eb944ee"
-    const appflyte_project_id = "4f58b8e9-da09-48b6-9af4-fe3ce657373c"
-
-
-    // [coa]
-    // const appflyte_project_id = "ae7e5874-edd1-4cbd-8ee6-b85119a29abf"
-    // const extraction_document_type_id = "ae5a87c5-a790-405b-a636-a75f25390125"
-    const extraction_file_id = "f51ac-7af7-4cdc-b6a8-7a011fd2d865"
+    const extraction_document_type_id = "ae5a87c5-a790-405b-a636-a75f25390125"
+    const appflyte_project_id = "ae7e5874-edd1-4cbd-8ee6-b85119a29abf"
+    // const extraction_file_id = "0649a3bb-a97d-4419-bb6b-aa9c55bac29f"
+    // const extraction_file_id="932907c4-406e-48b1-a988-b4c90094e4a5"
+    const extraction_file_id = null;
 
     // // [invoice]:
     // const appflyte_project_id = "cf346d34-d330-4d90-82a8-4022c57e16b4"

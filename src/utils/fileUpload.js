@@ -1,7 +1,6 @@
 import moment from "moment";
 import FilesApi from "../api/services/FileServiceApi";
 import getExtractionFilesData from "./fetchExtractionFiles";
-import { getExtractionFilebyId, getExtractionFilebyName } from "./extractionFiles";
 
 export const saveInBackend = async (appflyte_details, fileName, fileUrl, fileId) => {
     try {
@@ -106,31 +105,3 @@ export const fetchAllExtractionFiles = async (appflyte_details, fileLastEvaluate
         return { data: [], lastEvaluatedKey: null };
     }
 }
-
-export const searchExtractionFiles = async (appflyte_details, file_name) => {
-    try {
-        const response = await getExtractionFilebyName(appflyte_details, file_name);
-        if (response?.data?.length > 0) {
-            return response;
-        }
-        return [];
-    } catch (error) {
-        console.log(error)
-        return [];
-    }
-}
-
-export const getExtractionFile = async (appflyte_details, file_id) => {
-    try {
-        const response = await getExtractionFilebyId(appflyte_details, file_id);
-        if (response?.length > 0) {
-            return response;
-        }
-        return [];
-    } catch (error) {
-        console.log(error)
-        return [];
-    }
-}
-
-
