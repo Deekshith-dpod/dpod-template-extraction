@@ -112,14 +112,14 @@ class dpodappFlyteApi {
 
     getExtractionFiles = async (appflyte_details, last_evaluated_key, page_size) => {
         await this.initialize(appflyte_details);
-        // const extraction_document_type_id = appflyte_details?.extraction_document_type_id;
-        // const queryObj = [{
-        //     field_name: "payload.document_type",
-        //     field_value: extraction_document_type_id,
-        //     operator: "eq"
-        // }]
-        // const filter = encodeURIComponent(JSON.stringify(queryObj))
-        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_filess?filters=null&last_evaluated_key=${last_evaluated_key}&page_size=${page_size}&include_detail=false`
+        const extraction_document_type_id = appflyte_details?.extraction_document_type_id;
+        const queryObj = [{
+            field_name: "payload.document_type",
+            field_value: extraction_document_type_id,
+            operator: "eq"
+        }]
+        const filter = encodeURIComponent(JSON.stringify(queryObj))
+        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_filess?filters=${filter}&last_evaluated_key=${last_evaluated_key}&page_size=${page_size}&include_detail=false`
         const response = await makeCancellableRequest(AxiosObj, { method: 'GET', url });
         return response;
     }

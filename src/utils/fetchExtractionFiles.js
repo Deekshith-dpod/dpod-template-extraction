@@ -1,7 +1,7 @@
 import AmeyaSettingsApi from "../api/services/TemplateServiceApi";
 const getExtractionFilesData = async (appflyte_details, fileLastEvaluatedKey) => {
     const tempArr = [];
-    const page_size = 50;
+    const page_size = 100;
 
     try {
         const response = await AmeyaSettingsApi.getExtractionFiles(appflyte_details, fileLastEvaluatedKey, page_size);

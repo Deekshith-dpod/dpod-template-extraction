@@ -24,7 +24,7 @@ function App() {
     const appflyte_project_id = "ae7e5874-edd1-4cbd-8ee6-b85119a29abf"
     // const extraction_file_id = "0649a3bb-a97d-4419-bb6b-aa9c55bac29f"
     // const extraction_file_id="932907c4-406e-48b1-a988-b4c90094e4a5"
-    const extraction_file_id = null;
+    const extraction_file_id = null
 
     // // [invoice]:
     // const appflyte_project_id = "cf346d34-d330-4d90-82a8-4022c57e16b4"
