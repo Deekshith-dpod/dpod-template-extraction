@@ -4,10 +4,8 @@ import React, { useEffect, useState } from 'react';
 import ExtractionLayout from './ExtractionLayout';
 import getTemplateSettingsData from '../utils/fetchSettingsData';
 import { fetchAllExtractionFiles } from '../utils/FileUpload';
-import getAllDocumentTypes from '../utils/fecthMasterDomainDicts';
 import AmeyaSettingsApi from '../api/services/TemplateServiceApi';
 import { useAppContext } from '../context/appcontext';
-import getExtractionFile from '../utils/getFileById';
 
 function ExtractionHome(props) {
     const { fileLastEvaluatedKey, setFileLastEvaluatedKey } = useAppContext();
@@ -88,16 +86,16 @@ function ExtractionHome(props) {
                 return;
             }
 
-            const [loadPdf, documentTypes, extractionFilesData, schemaDocumentType] = await Promise.all([
+            const [loadPdf, documentType, extractionFilesData, schemaDocumentType] = await Promise.all([
                 loadPdfJs(),
                 fetchDocumentTypes(appflyte_config),
                 fetchAllExtractionFiles(appflyte_config, fileLastEvaluatedKey),
                 fetchDomainDictionarySchema(appflyte_config)
             ])
 
-            if (documentTypes && extractionFilesData && schemaDocumentType) {
+            if (documentType && extractionFilesData && schemaDocumentType) {
 
-                if ((documentTypes || []).length === 0) {
+                if (!documentType) {
                     setLoadingError('Invalid document type. Please select a valid option before continuing.');
                     return;
                 }
@@ -107,20 +105,19 @@ function ExtractionHome(props) {
                 setFileLastEvaluatedKey(extractionFilesLastEvaluatedKey);
 
                 if (appflyte_config.extraction_file_id) {
-                    const filesDatas = await getExtractionFile(appflyte_config, appflyte_config.extraction_file_id);
-                    if (filesDatas && filesDatas.length) {
-                        const filesData = filesDatas?.at(-1) ?? {};
-                        setSelectedExtractionFile(filesData);
+                    const response = await AmeyaSettingsApi.getExtractionFileById(appflyte_config);
+                    const responseData = response?.data ?? null;
+                    if (responseData) {
+                        setSelectedExtractionFile(responseData);
                     }
                 }
                 setExtractionFiles(extractionFilesArray);
-                const document_type = documentTypes?.at(-1) ?? {};
                 setDocumentTypeData(prev => ({
                     ...prev,
-                    __auto_id__: document_type?.__auto_id__ || null,
-                    document_name: document_type?.name || "",
-                    update_key: document_type?.update_key || null,
-                    master_document: document_type?.master_document_type || ""
+                    __auto_id__: documentType?.payload?.__auto_id__ || null,
+                    document_name: documentType?.payload?.name || "",
+                    update_key: documentType?.payload?.update_key || null,
+                    master_document: documentType?.payload?.master_document_type || ""
                 }))
                 setHomePagePreview(true)
             }
@@ -171,9 +168,9 @@ function ExtractionHome(props) {
 
     const fetchDocumentTypes = async (appflyte_config) => {
         try {
-            const response = await getAllDocumentTypes(appflyte_config);
-            const updated_response = response?.length > 0 && response?.map((mt) => ({ ...mt.payload, ...(mt.update_key ? { update_key: mt.update_key } : {}) })) || [];
-            return updated_response;
+            const response = await AmeyaSettingsApi.getDocumentTypes(appflyte_config)
+            const responseData = response?.data ?? null;
+            return responseData;
         } catch (error) {
             console.log(error)
             return [];

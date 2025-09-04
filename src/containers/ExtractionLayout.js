@@ -48,7 +48,7 @@ import axios from 'axios';
 import ExtractionResult from './ExtractionResult';
 import { documentStyles } from './utils';
 import { useAppContext } from '../context/appcontext';
-import { getAllExtarctionTasks } from '../utils/data';
+import { getAllExtarctionTasks } from '../utils/fetchExtractionTasks';
 import searchExtractionFiles from '../utils/searchExtractionFiles';
 
 function ExtractionLayout(props) {
@@ -214,38 +214,6 @@ function ExtractionLayout(props) {
     }
 
     // -----------------------------------| File Handling |-------------------------------------//
-    const handleFileUpload = async (file_data) => {
-        setLoading(true)
-        try {
-            if (file_data?.length === 0) {
-                alert('Please select file and try again')
-                return
-            }
-            const upload_response = await handleDocumentUpload(appflyte_details, file_data[0]);
-            if (upload_response.status === 200) {
-                const save_response = await saveInBackend(appflyte_details, upload_response.fileName, upload_response.fileUrl, upload_response.fileId);
-                if (save_response.status === 200) {
-                    const responseData = save_response.data || {};
-                    setExtractionFiles(prev => [...prev, responseData]);
-                    setSelectedExtractionFile(responseData);
-                    return;
-                } else {
-                    alert('Failed to save file, try again')
-                    return [];
-                }
-            } else {
-                alert('Failed to upload file, try again')
-                return [];
-            }
-        } catch (error) {
-            console.log(error)
-            apiErrorHandler(error)
-            return [];
-        } finally {
-            setLoading(false)
-        }
-    }
-
     const handleFileUpadte = async (file, update_type) => {
         try {
             let reqObj = {}

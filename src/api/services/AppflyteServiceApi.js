@@ -33,7 +33,7 @@ class dpodappFlyteApi {
             operator: "eq"
         }]
         const filter = encodeURIComponent(JSON.stringify(queryObj))
-        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_tasks?filters=${filter}&last_evaluated_key=${last_evaluated_key}&page_size=50&include_detail=false`
+        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_tasks?filters=${filter}&last_evaluated_key=${last_evaluated_key}&page_size=1000&include_detail=false`
         const response = await makeCancellableRequest(AxiosObj, { method: 'GET', url });
         return response;
     }

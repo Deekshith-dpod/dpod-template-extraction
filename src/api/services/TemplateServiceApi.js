@@ -71,16 +71,10 @@ class dpodappFlyteApi {
         return response;
     }
 
-    getDocumentTypes = async (appflyte_details, last_evaluated_key) => {
+    getDocumentTypes = async (appflyte_details) => {
         await this.initialize(appflyte_details);
-        const extraction_document_type_id = appflyte_details?.extraction_document_type_id;
-        const queryObj = [{
-            field_name: "payload.__auto_id__",
-            field_value: extraction_document_type_id,
-            operator: "eq"
-        }]
-        const filter = encodeURIComponent(JSON.stringify(queryObj))
-        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_document_typess?filters=${filter}&last_evaluated_key=${last_evaluated_key}&page_size=50&include_detail=false`
+        const document_type_id = appflyte_details?.extraction_document_type_id;
+        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_document_types/${document_type_id}`
         const response = await makeCancellableRequest(AxiosObj, { method: 'GET', url });
         return response;
     }
@@ -137,19 +131,13 @@ class dpodappFlyteApi {
         return response;
     }
 
-    getExtractionFileById = async (appflyte_details, file_id, last_evaluated_key) => {
+    getExtractionFileById = async (appflyte_details) => {
         await this.initialize(appflyte_details);
-        const queryObj = [{
-            field_name: "payload.__auto_id__",
-            field_value: file_id,
-            operator: "eq"
-        }]
-        const filter = encodeURIComponent(JSON.stringify(queryObj))
-        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_filess?filters=${filter}&last_evaluated_key=${last_evaluated_key}&page_size=1000&include_detail=false`
+        const file_id = appflyte_details?.extraction_file_id ?? null;
+        const url = `/${this.accountId}/api/collection/${this.accountId}/user/public/cm/v1/${this.schema_id}/extraction_files/${file_id}`
         const response = await makeCancellableRequest(AxiosObj, { method: 'GET', url });
         return response;
     }
-
 
     // Extraction Handling Api's
     startExtraction = async (appflyte_details, reqObj, pipeline_id) => {
